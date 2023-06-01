@@ -33,7 +33,18 @@ export default function App() {
         let sentimentoObtido = sentimentoBackend
         sentimentoObtido = sentimentoObtido.trim()
 
-        setSentimentos((sentimentos) => [sentimentoObtido, ...sentimentos])
+        // setSentimentos((sentimentos) => [sentimentoObtido, ...sentimentos])
+        setSentimentos(sentimentos => {
+          const aux = [sentimentoObtido, ...sentimentos]
+          setSentimento('')
+          return aux
+        })
+
+        setAmbos(ambos => {
+          const aux = [{frase, sentimento: sentimentoObtido}, ...ambos]
+          setSentimento('')
+          return aux
+        })
       })
   }
 
@@ -76,14 +87,15 @@ export default function App() {
       </View>
       
       <FlatList
-        data={frases}
-        renderItem={frase => (
+        data={ambos}
+        renderItem={({item}) => (
           <View style={styles.itemNaLista}>
-            <Text>Frase: {frase.item}</Text>
-            <Text>Sentimento: {sentimentos[0]}</Text>
+            <Text>Frase: {item.frase}</Text>
+            <Text>Sentimento: {item.sentimento}</Text>
             {/* {sentimentos[0]} */}
           </View>
-        )}>
+          )}
+        >
       </FlatList>
 
     </View>
